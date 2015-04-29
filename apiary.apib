@@ -1,181 +1,222 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
 
-# Veo VAMS API
+# VAMS API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+The VAMS (Video Access Management System) API powers the video playback integrations within the Veo architecture.
 
-# Polls API Root [/]
+# Group User Stream
+Represents actions against a user stream.
 
-This resource does not have any attributes. Instead it offers the initial
-API affordances in the form of the links in the JSON body.
+## User Stream [/play/asset/{assetId}/video/{videoId}.json]
+Attempts to create a new user stream.
 
-It is recommend to follow the “url” link values,
-[Link](https://tools.ietf.org/html/rfc5988) or Location headers where
-applicable to retrieve resources. Instead of constructing your own URLs,
-to keep your client decoupled from implementation details.
++ Parameters
+    + assetId (integer, `1`) ... The id of the Asset.
+    + videoId (integer, `1`) ... The id of the Video.
 
-## Retrieve the Entry Point [GET]
++ Model (application/json)
 
-+ Response 200 (application/json)
-
-        {
-            "questions_url": "/questions"
+    ```js
+    {
+        "playContext": {
+            "locationUri": "/player/user/1/asset/1/video/1/stream/deadbeef-dead-beef-dead-deadbeefdead.json",
+            "playerState": null,
+            "userStream": {
+                "streamId": "deadbeef-dead-beef-dead-deadbeefdead",
+                "userId": "1",
+                "creationDate": 1430244268481,
+                "updateDate": 1430244268481,
+                "expirationDate": null,
+                "interval": 10,
+                "state": "CREATED",
+                "assetId": "1",
+                "videoId": "1"
+            }
         }
+    }
+    ```
 
-## Group Question
-
-Resources related to questions in the API.
-
-## Question [/questions/{question_id}]
-
-A Question object has the following attributes:
-
-+ question
-+ published_at - An ISO8601 date when the question was published.
-+ url
-+ choices - An array of Choice objects.
-
-+ Parameters
-    + question_id (required, number, `1`) ... ID of the Question in form of an integer
-
-### View a Questions Detail [GET]
-
-+ Response 200 (application/json)
-
-                {
-                    "question": "Favourite programming language?",
-                    "published_at": "2014-11-11T08:40:51.620Z",
-                    "url": "/questions/1",
-                    "choices": [
-                        {
-                            "choice": "Swift",
-                            "url": "/questions/1/choices/1",
-                            "votes": 2048
-                        }, {
-                            "choice": "Python",
-                            "url": "/questions/1/choices/2",
-                            "votes": 1024
-                        }, {
-                            "choice": "Objective-C",
-                            "url": "/questions/1/choices/3",
-                            "votes": 512
-                        }, {
-                            "choice": "Ruby",
-                            "url": "/questions/1/choices/4",
-                            "votes": 256
-                        }
-                    ]
-                }
-
-## Choice [/questions/{question_id}/choices/{choice_id}]
-
-+ Parameters
-    + question_id (required, number, `1`) ... ID of the Question in form of an integer
-    + choice_id (required, number, `1`) ... ID of the Choice in form of an integer
-
-### Vote on a Choice [POST]
-
-This action allows you to vote on a question's choice.
+### Create User Stream [POST]
 
 + Response 201
 
-    + Headers
+    [User Stream][]
 
-            Location: /questions/1
++ Response 500
 
-## Questions Collection [/questions{?page}]
+    ```js
+    {
+        "message": "Unknown server error"
+    }
+    ```
+
+## Update User Stream [/player/user/{userId}/asset/{assetId}/video/{videoId}/stream/{streamId}.json{?state}]
+Attempts to update an existing user stream.
 
 + Parameters
-    + page (optional, number, `1`) ... The page of questions to return
+    + userId (integer, `1`) ... The id of the User.
+    + assetId (integer, `1`) ... The id of the Asset.
+    + videoId (integer, `1`) ... The id of the Video.
+    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the User Stream.
+    + state (enum[string]) ... The transition state of the User Stream.
+        + Members
+            + `START` - Acquires the Stream
+            + `CONTINUE` - Retains the Stream
+            + `STOP` - Releases the Stream
+    + program_start (integer, `0`) ... The starting timeline position.
+    + timeline_position (integer, `0`) ... The current timeline position.
 
-### List All Questions [GET]
+### Update User Stream [POST]
 
-+ Response 200 (application/json)
++ Response 200
 
-    + Headers
+    [User Stream][]
 
-            Link: </questions?page=2>; rel="next"
++ Response 400
 
-    + Body
+    ```js
+    {
+        "message": "Invalid User Stream"
+    }
+    ```
 
-            [
-                {
-                    "question": "Favourite programming language?",
-                    "published_at": "2014-11-11T08:40:51.620Z",
-                    "url": "/questions/1",
-                    "choices": [
-                        {
-                            "choice": "Swift",
-                            "url": "/questions/1/choices/1",
-                            "votes": 2048
-                        }, {
-                            "choice": "Python",
-                            "url": "/questions/1/choices/2",
-                            "votes": 1024
-                        }, {
-                            "choice": "Objective-C",
-                            "url": "/questions/1/choices/3",
-                            "votes": 512
-                        }, {
-                            "choice": "Ruby",
-                            "url": "/questions/1/choices/4",
-                            "votes": 256
-                        }
-                    ]
-                }
-            ]
++ Response 403
 
-### Create a New Question [POST]
+    ```js
+    {
+        "message": "Expired User Stream"
+    }
+    ```
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
++ Response 404
 
-+ question (string) - The question
-+ choices (array[string]) - A collection of choices.
+    ```js
+    {
+        "message": "User Stream not found"
+    }
+    ```
 
-+ Request (application/json)
++ Response 410
 
-            {
-                "question": "Favourite programming language?",
-                "choices": [
-                    "Swift",
-                    "Python",
-                    "Objective-C",
-                    "Ruby"
-                ]
+    ```js
+    {
+        "message": "Terminated User Stream"
+    }
+    ```
+
++ Response 500
+
+    ```js
+    {
+        "message": "Unknown server error"
+    }
+    ```
+
+# Group Program Stream
+Represents actions against a program stream.
+
+## Program Stream [/watch/channel/{channelId}.json]
+Attempts to create a new program stream.
+
++ Parameters
+    + channelId (integer, `1`) ... The id of the Program.
+
++ Model (application/json)
+
+    ```js
+    {
+        "playContext": {
+            "locationUri": "/player/user/1/channel/1/stream/deadbeef-dead-beef-dead-deadbeefdead.json",
+            "playerState": null,
+            "userStream": {
+                "streamId": "deadbeef-dead-beef-dead-deadbeefdead",
+                "userId": "1",
+                "creationDate": 1430244922919,
+                "updateDate": 1430244922919,
+                "expirationDate": null,
+                "interval": 10,
+                "state": "CREATED",
+                "channelId": "1"
             }
+        }
+    }
+    ```
 
-+ Response 201 (application/json)
+### Create Program Stream [POST]
 
-    + Headers
++ Response 201
 
-            Location: /questions/2
+    [Program Stream][]
 
-    + Body
++ Response 500
 
-                {
-                    "question": "Favourite programming language?",
-                    "published_at": "2014-11-11T08:40:51.620Z",
-                    "url": "/questions/2",
-                    "choices": [
-                        {
-                            "choice": "Swift",
-                            "url": "/questions/2/choices/1",
-                            "votes": 0
-                        }, {
-                            "choice": "Python",
-                            "url": "/questions/2/choices/2",
-                            "votes": 0
-                        }, {
-                            "choice": "Objective-C",
-                            "url": "/questions/2/choices/3",
-                            "votes": 0
-                        }, {
-                            "choice": "Ruby",
-                            "url": "/questions/2/choices/4",
-                            "votes": 0
-                        }
-                    ]
-                }
+    ```js
+    {
+        "message": "Unknown server error"
+    }
+    ```
+
+## Update Program Stream [/player/user/{userId}/channel/{channelId}/stream/{streamId}.json{?state}{?type}{?program_start}{?timeline_position}]
+Attempts to update an existing program stream.
+
++ Parameters
+    + userId (integer, `1`) ... The id of the User.
+    + channelId (integer, `1`) ... The id of the Program.
+    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the User Stream.
+    + state (enum[string]) ... The transition state of the Stream.
+        + Members
+            + `START` - Acquires the Stream
+            + `CONTINUE` - Retains the Stream
+            + `STOP` - Releases the Stream
+    + type (enum[string]) ... The type of Program.
+        + Members
+            + `LIVE` - Live stream
+            + `CATCH_UP` - On-demand stream
+    + program_start (integer, `0`) ... The starting timeline position.
+    + timeline_position (integer, `0`) ... The current timeline position.
+
+### Update Program Stream [POST]
+
++ Response 200
+
+    [User Stream][]
+
++ Response 400
+
+    ```js
+    {
+        "message": "Invalid User Stream"
+    }
+    ```
+
++ Response 403
+
+    ```js
+    {
+        "message": "Expired User Stream"
+    }
+    ```
+
++ Response 404
+
+    ```js
+    {
+        "message": "User Stream not found"
+    }
+    ```
+
++ Response 410
+
+    ```js
+    {
+        "message": "Terminated User Stream"
+    }
+    ```
+
++ Response 500
+
+    ```js
+    {
+        "message": "Unknown server error"
+    }
+    ```
