@@ -224,8 +224,12 @@ Attempts to update an existing channel stream.
 # Group Resume Play
 Represents actions against resume playback functionality.
 
-## Resume Positions [/resume/user/{userId}]
+## Resume Positions [/resume/user/{userId}{?filterIds}]
 Retrieve all playback positions.
+
++ Parameters
+    + userId (integer, `1`) ... The id of the User.
+    + filterIds (optional string, `1,2,3`) ... The ids of the Asset to filter.
 
 + Model (application/json)
 
@@ -246,7 +250,7 @@ Retrieve all playback positions.
     ]
     ```
 
-### Retrieve Resume Position [GET]
+### Retrieve Resume Positions [GET]
 
 + Response 200
 
@@ -255,6 +259,10 @@ Retrieve all playback positions.
 
 ## Asset Resume Position [/resume/user/{userId}/asset/{assetId}]
 Retrieve the playback position for an asset.
+
++ Parameters
+    + userId (integer, `1`) ... The id of the User.
+    + assetId (integer, `1`) ... The id of the Asset.
 
 + Model (application/json)
 
