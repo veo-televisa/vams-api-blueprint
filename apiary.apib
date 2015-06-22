@@ -4,11 +4,11 @@ FORMAT: 1A
 
 The VAMS (Video Access Management System) API powers the video playback integrations within the Veo architecture.
 
-# Group User Stream
-Represents actions against a user stream.
+# Group Asset Stream
+Represents actions against a asset stream.
 
-## User Stream [/play/asset/{assetId}/video/{videoId}.json]
-Attempts to create a new user stream.
+## Asset Stream [/play/asset/{assetId}/video/{videoId}.json]
+Attempts to create a new asset stream.
 
 + Parameters
     + assetId (integer, `1`) ... The id of the Asset.
@@ -36,11 +36,11 @@ Attempts to create a new user stream.
     }
     ```
 
-### Create User Stream [POST]
+### Create Asset Stream [POST]
 
 + Response 201
 
-    [User Stream][]
+    [Asset Stream][]
 
 + Response 500
 
@@ -50,33 +50,33 @@ Attempts to create a new user stream.
     }
     ```
 
-## Update User Stream [/player/user/{userId}/asset/{assetId}/video/{videoId}/stream/{streamId}.json{?state}{?program_start}{?timeline_position}]
-Attempts to update an existing user stream.
+## Update Asset Stream [/player/user/{userId}/asset/{assetId}/video/{videoId}/stream/{streamId}.json{?state}{?asset_duration}{?timeline_position}]
+Attempts to update an existing asset stream.
 
 + Parameters
     + userId (integer, `1`) ... The id of the User.
     + assetId (integer, `1`) ... The id of the Asset.
     + videoId (integer, `1`) ... The id of the Video.
-    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the User Stream.
-    + state (enum[string]) ... The transition state of the User Stream.
+    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the Asset Stream.
+    + state (enum[string]) ... The transition state of the Asset Stream.
         + Members
             + `START` - Acquires the Stream
             + `CONTINUE` - Retains the Stream
             + `STOP` - Releases the Stream
-    + program_start (integer, `0`) ... The starting timeline position.
-    + timeline_position (integer, `0`) ... The current timeline position.
+    + asset_duration (integer, `0`) ... The duration of the asset in seconds.
+    + timeline_position (integer, `0`) ... The current timeline position in seconds.
 
-### Update User Stream [POST]
+### Update Asset Stream [POST]
 
 + Response 200
 
-    [User Stream][]
+    [Asset Stream][]
 
 + Response 400
 
     ```js
     {
-        "message": "Invalid User Stream"
+        "message": "Invalid Asset Stream"
     }
     ```
 
@@ -84,7 +84,7 @@ Attempts to update an existing user stream.
 
     ```js
     {
-        "message": "Expired User Stream"
+        "message": "Expired Asset Stream"
     }
     ```
 
@@ -92,7 +92,7 @@ Attempts to update an existing user stream.
 
     ```js
     {
-        "message": "User Stream not found"
+        "message": "Asset Stream not found"
     }
     ```
 
@@ -100,7 +100,7 @@ Attempts to update an existing user stream.
 
     ```js
     {
-        "message": "Terminated User Stream"
+        "message": "Terminated Asset Stream"
     }
     ```
 
@@ -112,14 +112,14 @@ Attempts to update an existing user stream.
     }
     ```
 
-# Group Program Stream
-Represents actions against a program stream.
+# Group Channel Stream
+Represents actions against a channel stream.
 
-## Program Stream [/watch/channel/{channelId}.json]
-Attempts to create a new program stream.
+## Channel Stream [/watch/channel/{channelId}.json]
+Attempts to create a new channel stream.
 
 + Parameters
-    + channelId (integer, `1`) ... The id of the Program.
+    + channelId (integer, `1`) ... The id of the Channel.
 
 + Model (application/json)
 
@@ -142,11 +142,11 @@ Attempts to create a new program stream.
     }
     ```
 
-### Create Program Stream [POST]
+### Create Channel Stream [POST]
 
 + Response 201
 
-    [Program Stream][]
+    [Channel Stream][]
 
 + Response 500
 
@@ -156,36 +156,36 @@ Attempts to create a new program stream.
     }
     ```
 
-## Update Program Stream [/player/user/{userId}/channel/{channelId}/stream/{streamId}.json{?state}{?type}{?program_start}{?timeline_position}]
-Attempts to update an existing program stream.
+## Update Channel Stream [/player/user/{userId}/channel/{channelId}/stream/{streamId}.json{?state}{?type}{?program_start}{?timeline_position}]
+Attempts to update an existing channel stream.
 
 + Parameters
     + userId (integer, `1`) ... The id of the User.
-    + channelId (integer, `1`) ... The id of the Program.
-    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the User Stream.
+    + channelId (integer, `1`) ... The id of the Channel.
+    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the Asset Stream.
     + state (enum[string]) ... The transition state of the Stream.
         + Members
             + `START` - Acquires the Stream
             + `CONTINUE` - Retains the Stream
             + `STOP` - Releases the Stream
-    + type (enum[string]) ... The type of Program.
+    + type (enum[string]) ... The type of Channel.
         + Members
             + `LIVE` - Live stream
             + `CATCH_UP` - On-demand stream
-    + program_start (integer, `0`) ... The starting timeline position.
-    + timeline_position (integer, `0`) ... The current timeline position.
+    + program_start (integer, `0`) ... The starting timeline position as a Unix timestamp.
+    + timeline_position (integer, `0`) ... The current timeline position in seconds.
 
-### Update Program Stream [POST]
+### Update Channel Stream [POST]
 
 + Response 200
 
-    [User Stream][]
+    [Asset Stream][]
 
 + Response 400
 
     ```js
     {
-        "message": "Invalid User Stream"
+        "message": "Invalid Asset Stream"
     }
     ```
 
@@ -193,7 +193,7 @@ Attempts to update an existing program stream.
 
     ```js
     {
-        "message": "Expired User Stream"
+        "message": "Expired Asset Stream"
     }
     ```
 
@@ -201,7 +201,7 @@ Attempts to update an existing program stream.
 
     ```js
     {
-        "message": "User Stream not found"
+        "message": "Asset Stream not found"
     }
     ```
 
@@ -209,7 +209,7 @@ Attempts to update an existing program stream.
 
     ```js
     {
-        "message": "Terminated User Stream"
+        "message": "Terminated Asset Stream"
     }
     ```
 
@@ -218,5 +218,63 @@ Attempts to update an existing program stream.
     ```js
     {
         "message": "Unknown server error"
+    }
+    ```
+
+# Group Resume Play
+Represents actions against resume playback functionality.
+
+## Resume Positions [/resume/user/{userId}]
+Retrieve all playback positions.
+
++ Model (application/json)
+
+    ```js
+    [
+        {
+            "assetId": 4038,
+            "viewPosition": 43
+        },
+        {
+            "assetId": 19889,
+            "viewPosition": 350
+        },
+        {
+            "assetId": 24043,
+            "viewPosition": 0
+        }
+    ]
+    ```
+
+### Retrieve Resume Position [GET]
+
++ Response 200
+
+    [Resume Positions][]
+
+
+## Asset Resume Position [/resume/user/{userId}/asset/{assetId}]
+Retrieve the playback position for an asset.
+
++ Model (application/json)
+
+    ```js
+    {
+        "assetId": 4038,
+        "viewPosition": 0
+    }
+    ```
+
+### Retrieve Resume Position [GET]
+
++ Response 200
+
+    [Asset Resume Position][]
+
++ Response 404
+
+    ```js
+    {
+        "message": "Resume position not found"
     }
     ```
