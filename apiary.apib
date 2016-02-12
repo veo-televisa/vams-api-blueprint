@@ -26,7 +26,7 @@ Attempts to create a new asset stream.
                 "userId": "1",
                 "creationDate": 1430244268481,
                 "updateDate": 1430244268481,
-                "expirationDate": null,
+                "expirationDate": 1430245268481,
                 "interval": 10,
                 "state": "CREATED",
                 "assetId": "1",
@@ -76,7 +76,7 @@ Attempts to update an existing asset stream.
 
     ```js
     {
-        "message": "Invalid Asset Stream"
+        "message": "The stream is invalid or some other generic error"
     }
     ```
 
@@ -84,7 +84,7 @@ Attempts to update an existing asset stream.
 
     ```js
     {
-        "message": "Expired Asset Stream"
+        "message": "The stream has expired"
     }
     ```
 
@@ -92,7 +92,15 @@ Attempts to update an existing asset stream.
 
     ```js
     {
-        "message": "Asset Stream not found"
+        "message": "The stream does not exist"
+    }
+    ```
+
++ Response 409
+
+    ```js
+    {
+        "message": "The stream cannot be acquired"
     }
     ```
 
@@ -100,7 +108,7 @@ Attempts to update an existing asset stream.
 
     ```js
     {
-        "message": "Terminated Asset Stream"
+        "message": "The stream has been terminated"
     }
     ```
 
@@ -108,7 +116,7 @@ Attempts to update an existing asset stream.
 
     ```js
     {
-        "message": "Unknown server error"
+        "message": "An unknown server error has ocurred"
     }
     ```
 
@@ -133,7 +141,7 @@ Attempts to create a new channel stream.
                 "userId": "1",
                 "creationDate": 1430244922919,
                 "updateDate": 1430244922919,
-                "expirationDate": null,
+                "expirationDate": 1430245022919,
                 "interval": 10,
                 "state": "CREATED",
                 "channelId": "1"
@@ -179,7 +187,7 @@ Attempts to update an existing channel stream.
 
 + Response 200
 
-    [Asset Stream][]
+    [Channel Stream][]
 
 + Response 400
 
@@ -189,11 +197,19 @@ Attempts to update an existing channel stream.
     }
     ```
 
++ Response 400
+
+    ```js
+    {
+        "message": "The stream is invalid or some other generic error"
+    }
+    ```
+
 + Response 403
 
     ```js
     {
-        "message": "Expired Asset Stream"
+        "message": "The stream has expired"
     }
     ```
 
@@ -201,7 +217,15 @@ Attempts to update an existing channel stream.
 
     ```js
     {
-        "message": "Asset Stream not found"
+        "message": "The stream does not exist"
+    }
+    ```
+
++ Response 409
+
+    ```js
+    {
+        "message": "The stream cannot be acquired"
     }
     ```
 
@@ -209,7 +233,7 @@ Attempts to update an existing channel stream.
 
     ```js
     {
-        "message": "Terminated Asset Stream"
+        "message": "The stream has been terminated"
     }
     ```
 
@@ -217,7 +241,7 @@ Attempts to update an existing channel stream.
 
     ```js
     {
-        "message": "Unknown server error"
+        "message": "An unknown server error has ocurred"
     }
     ```
 
