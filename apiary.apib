@@ -164,7 +164,7 @@ Attempts to create a new channel stream.
     }
     ```
 
-## Update Channel Stream [/player/user/{userId}/channel/{channelId}/stream/{streamId}.json{?state}{?type}{?program_start}{?timeline_position}]
+## Update Channel Stream [/player/user/{userId}/channel/{channelId}/stream/{streamId}.json{?state}{?type}{?listing_id}{?timeline_position}]
 Attempts to update an existing channel stream.
 
 + Parameters
@@ -180,8 +180,8 @@ Attempts to update an existing channel stream.
         + Members
             + `LIVE` - Live stream
             + `CATCH_UP` - On-demand stream
-    + program_start (integer, `0`) ... The starting timeline position as a Unix timestamp.
-    + timeline_position (integer, `0`) ... The current timeline position in seconds.
+    + listing_id (integer, `0`) ... The id of the Listing.
+    + timeline_position (string, `2016-05-13T05:00:00Z`) ... The timeline position of the stream as a ISO 8601 date.
 
 ### Update Channel Stream [POST]
 
