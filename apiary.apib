@@ -57,7 +57,7 @@ Attempts to update an existing asset stream.
     + userId (integer, `1`) ... The id of the User.
     + assetId (integer, `1`) ... The id of the Asset.
     + videoId (integer, `1`) ... The id of the Video.
-    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the Asset Stream.
+    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the Stream.
     + state (enum[string]) ... The transition state of the Asset Stream.
         + Members
             + `START` - Acquires the Stream
@@ -170,13 +170,13 @@ Attempts to update an existing channel stream.
 + Parameters
     + userId (integer, `1`) ... The id of the User.
     + channelId (integer, `1`) ... The id of the Channel.
-    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the Asset Stream.
+    + streamId (string, `deadbeef-dead-beef-dead-deadbeefdead`) ... The id of the Stream.
     + state (enum[string]) ... The transition state of the Stream.
         + Members
             + `START` - Acquires the Stream
             + `CONTINUE` - Retains the Stream
             + `STOP` - Releases the Stream
-    + type (enum[string]) ... The type of Channel.
+    + type (enum[string]) ... The type of Stream.
         + Members
             + `LIVE` - Live stream
             + `CATCH_UP` - On-demand stream
