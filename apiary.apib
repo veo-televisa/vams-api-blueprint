@@ -249,12 +249,18 @@ Attempts to update an existing channel stream.
 # Group Resume Play
 Represents actions against resume playback functionality.
 
-## Resume Positions [/resume/user/{userId}{?filterIds}]
+## Resume Positions [/resume/user/{userId}{?filterIds}{&filterStates}{&limit}{&offset}]
 Retrieve all playback positions.
 
 + Parameters
     + userId (integer, `1`) ... The id of the User.
     + filterIds (optional string, `1,2,3`) ... A comma separated list of Asset ids to filter.
+    + filterStates (optional enum[string], `completed`) ... A comma separated list of States to include.
+        + Members
+            + `started` - Returns view positions that have NOT reached the end of video experience position
+            + `completed` - Returns view positions that have reached the end of video experience position
+    + limit (optional 64-bit integer, `3`) ... The maximum number of records to return.
+    + offset (optional 64-bit integer, `0`) ... The number of records to skip.
 
 + Model (application/json)
 
@@ -267,27 +273,27 @@ Retrieve all playback positions.
         },    
         {
             "assetId": 4038,
-            "modifiedAt": "2015-06-04T12:00:00Z",
+            "modifiedAt": "2015-05-04T12:00:00Z",
             "viewPosition": 43
         },
         {
             "assetId": 19889,
-            "modifiedAt": "2015-06-03T12:00:00Z",
+            "modifiedAt": "2015-04-03T12:00:00Z",
             "viewPosition": 350
         },
         {
             "assetId": 48,
-            "modifiedAt": "2015-06-02T12:05:00Z",
+            "modifiedAt": "2015-03-02T12:05:00Z",
             "viewPosition": 0
         },
         {
             "assetId": 40,
-            "modifiedAt": "2015-06-02T12:00:00Z",
+            "modifiedAt": "2015-02-02T12:00:00Z",
             "viewPosition": 0
         },        
         {
             "assetId": 109,
-            "modifiedAt": "2015-06-01T12:00:00Z",
+            "modifiedAt": "2015-01-01T12:00:00Z",
             "viewPosition": 33
         }
     ]
