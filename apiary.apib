@@ -249,18 +249,13 @@ Attempts to update an existing channel stream.
 # Group Resume Play
 Represents actions against resume playback functionality.
 
-## Resume Positions [/resume/user/{userId}{?filterIds}{?filterStates}{?limit}{?offset}]
+## Resume Positions [/resume/user/{userId}{?filterIds}{?limit}]
 Retrieve all playback positions.
 
 + Parameters
     + userId (integer, `1`) ... The id of the User.
     + filterIds (optional, string, `1,2,3`) ... A comma separated list of Asset ids to filter.
-    + filterStates (optional, enum[string]) ... An optional comma separated list of States to include.
-        + Members
-            + `started` - Returns view positions that have NOT reached the end of video experience position
-            + `completed` - Returns view positions that have reached the end of video experience position
     + limit (optional, 64-bit integer, `3`) ... The maximum number of records to return.
-    + offset (optional, 64-bit integer, `0`) ... The number of records to skip.
 
 + Model (application/json)
 
@@ -312,7 +307,7 @@ Retrieve all playback positions.
     [Resume Positions][]
 
 
-## Asset Resume Position [/resume/user/{userId}/asset/{assetId}]
+## Asset Resume Position [/resume/user/{userId}/asset/{assetId}{?filterIds}{?limit}]
 Retrieve the playback position for an asset.
 
 + Parameters
@@ -355,3 +350,95 @@ Retrieve the playback position for an asset.
         "message": "Resume position(s) not found"
     }
     ```
+    
+# Group View History
+Represents actions against the view history resource.
+
+## View History [/history/user/{userId}{?filterIds}{?limit}]
+Retrieve the view history for a user.
+
++ Parameters
+    + userId (integer, `1`) ... The id of the User.
+    + filterIds (optional, string, `1,2,3`) ... A comma separated list of Asset ids to filter.
+    + limit (optional, 64-bit integer, `3`) ... The maximum number of records to return.
+
++ Model (application/json)
+
+    ```js
+    [
+      {
+        "assetId": "3",
+        "userId": "1",
+        "completed": 1490719942,
+        "modifiedAt": "2017-03-28 16:52:22.6057"
+      },
+      {
+        "assetId": "2",
+        "userId": "1",
+        "completed": 1490719926,
+        "modifiedAt": "2017-03-28 16:52:06.885"
+      }
+    ]
+    ```
+
+### Retrieve View History [GET]
+
++ Response 200
+
+    [View History][]
+    
+# Group View Information
+Represents actions against the view information resource.
+
+## All View Info [/view/user/{userId}{?filterIds}{?limit}]
+Retrieve an aggregated result set on view information for a user i.e resume positions and History.
+
++ Parameters
+    + userId (integer, `1`) ... The id of the User.
+    + filterIds (optional, string, `1,2,3`) ... A comma separated list of Asset ids to filter.
+    + limit (optional, 64-bit integer, `3`) ... The maximum number of records to return from each query that contributes to the final aggregated result set.
+
++ Model (application/json)
+
+    ```js
+    {
+      "1": {
+        "started": {
+          "assetId": "1",
+          "userId": "1",
+          "viewPosition": 50,
+          "modifiedAt": "2017-03-28 16:53:03.9490"
+        },
+        "completed": null
+      },
+      "2": {
+        "started": null,
+        "completed": {
+          "assetId": "2",
+          "userId": "1",
+          "completed": 1490719926,
+          "modifiedAt": "2017-03-28 16:52:06.885"
+        }
+      },
+      "3": {
+        "started": {
+          "assetId": "3",
+          "userId": "1",
+          "viewPosition": 50,
+          "modifiedAt": "2017-03-28 16:52:23.9548"
+        },
+        "completed": {
+          "assetId": "3",
+          "userId": "1",
+          "completed": 1490719942,
+          "modifiedAt": "2017-03-28 16:52:22.6057"
+        }
+      }
+    }
+    ```
+
+### Retrieve View Information [GET]
+
++ Response 200
+
+    [All View Info][]
