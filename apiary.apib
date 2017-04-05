@@ -50,7 +50,7 @@ Attempts to create a new asset stream.
     }
     ```
 
-## Update Asset Stream [/player/user/{userId}/asset/{assetId}/video/{videoId}/stream/{streamId}.json{?state}{?asset_duration}{?timeline_position}{?keep_position}]
+## Update Asset Stream [/player/user/{userId}/asset/{assetId}/video/{videoId}/stream/{streamId}.json{?state}{?asset_duration}{?timeline_position}]
 Attempts to update an existing asset stream.
 
 + Parameters
@@ -65,7 +65,6 @@ Attempts to update an existing asset stream.
             + `STOP` - Releases the Stream
     + asset_duration (integer, `0`) ... The duration of the asset in seconds.
     + timeline_position (integer, `0`) ... The current timeline position in seconds.
-    + keep_position (boolean, `true`) ... Keep the timeline position (only works with state:STOP)
 
 ### Update Asset Stream [POST]
 
