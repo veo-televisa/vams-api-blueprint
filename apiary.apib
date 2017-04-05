@@ -253,7 +253,7 @@ Retrieve all playback positions.
 
 + Parameters
     + userId (integer, `1`) ... The id of the User.
-    + filterIds (optional, string, `1,2,3`) ... A comma separated list of Asset ids to filter.
+    + filterIds (optional, string, `1,2,3`) ... A comma separated list of Asset ids to filter or delete.
     + limit (optional, 64-bit integer, `3`) ... The maximum number of records to return.
 
 + Model (application/json)
@@ -304,7 +304,18 @@ Retrieve all playback positions.
 + Response 200
 
     [Resume Positions][]
+    
+### Remove Resume Positions [DELETE]
 
++ Response 204
+
++ Response 404
+
+    ```js
+    {
+        "message": "Resume position(s) not found"
+    }
+    ```
 
 ## Asset Resume Position [/resume/user/{userId}/asset/{assetId}{?filterIds}{?limit}]
 Retrieve the playback position for an asset.
